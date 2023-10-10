@@ -1,8 +1,8 @@
 ---
 
 -name: install packages
-  become: true
-  ansible.builtin.apt:
+ become: true
+ ansible.builtin.apt:
     update_cache: true
     name:
       - curl
