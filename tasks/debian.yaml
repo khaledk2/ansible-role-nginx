@@ -1,6 +1,5 @@
 ---
 
----
 -name: install packages
   become: true
   ansible.builtin.apt:
