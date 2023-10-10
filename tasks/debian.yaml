@@ -1,17 +1,19 @@
 ---
+#  nginx
 
--name: install packages
- become: true
- ansible.builtin.apt:
-    update_cache: true
-    name:
-      - curl
-      - gnupg2
-      - ca-certificates
-      - lsb-release
-      - dirmngr
-      - software-properties-common
-      - apt-transport-https
+- name: system packages | install packages
+  become: true
+  ansible.builtin.apt:
+     update_cache: true
+     name:
+       - curl
+       - gnupg2
+       - ca-certificates
+       - lsb-release
+       - dirmngr
+       - software-properties-common
+       - apt-transport-https
+     state: present
 
 - name: system packages | add nginx apt key
   become: true
