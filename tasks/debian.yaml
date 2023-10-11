@@ -25,3 +25,11 @@
   file:
     path: /etc/nginx/sites-enabled/default
     state: absent
+
+- name: Get uptime information
+  ansible.builtin.shell: nginx -v
+  register: version
+
+
+- name: Display all variables/facts known for a host
+  ansible.builtin.debug: version
