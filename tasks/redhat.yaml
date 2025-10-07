@@ -9,9 +9,9 @@
   become: true
   ansible.builtin.dnf:
     update_cache: true
-    name: "https://nginx.org/packages/centos/9/x86_64/RPMS/nginx-1.24.0-1.el9.ngx.x86_64.rpm"
+    name: "https://nginx.org/packages/centos/9/x86_64/RPMS/nginx-1.28.0-1.el9.ngx.x86_64.rpm"
     state: present
-  when: not nginx_version
+  when:  nginx_version | length == 0
 
 - name: system packages | setup upstream nginx stable repo
   become: true
@@ -19,7 +19,7 @@
     update_cache: true
     name: "https://nginx.org/packages/centos/9/x86_64/RPMS/nginx-{{ nginx_version }}-1.el9.ngx.x86_64.rpm"
     state: present
-  when: nginx_version
+  when: nginx_version | length > 0
 
 - name: system packages | install nginx
   become: true
@@ -33,7 +33,7 @@
 # just in case
 - name: nginx | remove default config
   become: true
-  copy:
+  ansible.builtin.copy:
     content: "# This file is intentionally blank (Ansible)"
     dest: /etc/nginx/conf.d/{{ item }}
     mode: 0644
