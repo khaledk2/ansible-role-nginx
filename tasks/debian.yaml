@@ -21,6 +21,6 @@
 
 - name: nginx | remove default config
   become: true
-  file:
+  ansible.builtin.file:
     path: /etc/nginx/sites-enabled/default
     state: absent
