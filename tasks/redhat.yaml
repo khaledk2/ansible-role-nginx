@@ -8,6 +8,7 @@
 - name: system packages | setup upstream nginx stable repo
   become: true
   ansible.builtin.dnf:
+    update_cache: true
     name: "https://nginx.org/packages/centos/9/x86_64/RPMS/nginx-1.24.0-1.el9.ngx.x86_64.rpm"
     state: present
   when: not nginx_version
@@ -15,6 +16,7 @@
 - name: system packages | setup upstream nginx stable repo
   become: true
   ansible.builtin.dnf:
+    update_cache: true
     name: "https://nginx.org/packages/centos/9/x86_64/RPMS/nginx-{{ nginx_version }}-1.el9.ngx.x86_64.rpm"
     state: present
   when: nginx_version
@@ -22,6 +24,7 @@
 - name: system packages | install nginx
   become: true
   ansible.builtin.dnf:
+    update_cache: true
     name: >-
       nginx
     state: present
