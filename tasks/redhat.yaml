@@ -3,28 +3,35 @@
   become: true
   ansible.builtin.rpm_key:
     state: present
-    key:  https://nginx.org/keys/nginx_signing.key
+    key: https://nginx.org/keys/nginx_signing.key
 
 - name: system packages | setup upstream nginx stable repo
   become: true
   ansible.builtin.dnf:
-    update_cache: true
-    name: "https://nginx.org/packages/centos/9/x86_64/RPMS/nginx-1.24.0-1.el9.ngx.x86_64.rpm"
+    name: "https://nginx.org/packages/centos/9/x86_64/RPMS/nginx-1.28.0-1.el9.ngx.x86_64.rpm"
     state: present
-  when: not nginx_version
+  when: nginx_version | length == 0
 
 - name: system packages | setup upstream nginx stable repo
   become: true
   ansible.builtin.dnf:
-    update_cache: true
     name: "https://nginx.org/packages/centos/9/x86_64/RPMS/nginx-{{ nginx_version }}-1.el9.ngx.x86_64.rpm"
     state: present
-  when: nginx_version
+  when: nginx_version | length >  0
+
+# Sometimes necessary to override the nginx
+# by default by the OS
+- name: system packages | remove nginx
+  become: true
+  ansible.builtin.dnf:
+    name: >-
+      nginx
+    state: absent
+  when: nginx_remove
 
 - name: system packages | install nginx
   become: true
   ansible.builtin.dnf:
-    update_cache: true
     name: >-
       nginx
     state: present
@@ -33,7 +40,7 @@
 # just in case
 - name: nginx | remove default config
   become: true
-  copy:
+  ansible.builtin.copy:
     content: "# This file is intentionally blank (Ansible)"
     dest: /etc/nginx/conf.d/{{ item }}
     mode: 0644

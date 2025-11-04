@@ -17,7 +17,7 @@ Role Variables
 - `nginx_version`: The packaged version of Nginx, optional, available versions depends on `nginx_stable_repo`. Not supported on Ubuntu.
 - `nginx_systemd_setup`: Start/restart nginx using systemd, default `true`
 , if you want to manage Nginx yourself set this to `false`
-
+- `nginx_remove`: Remove Nginx, default is `false`
 Log rotation:
 
 - `nginx_logrotate_interval`: Rotate log files at this interval, default `daily`
