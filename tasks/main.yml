@@ -1,7 +1,7 @@
 ---
 # tasks file for roles/nginx
 
-- ansible.builtin.import_tasks: redhat.yaml
+- ansible.builtin.include_tasks: redhat.yaml
   when: ansible_os_family | lower == 'redhat'
 
 - ansible.builtin.include_tasks: debian.yaml
